@@ -11,9 +11,13 @@ targets:
         excludes:
           - ".github"
           - "project.yml"
+          - "build.yml"
+          - "*.md"
     settings:
-      PRODUCT_BUNDLE_IDENTIFIER: com.savingssentence.app
-      MARKETING_VERSION: 1.0.0
-      CURRENT_PROJECT_VERSION: 1
-      ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
-      INFOPLIST_FILE: SavingsSentence/Info.plist
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.savingssentence.app
+        MARKETING_VERSION: 1.0.0
+        CURRENT_PROJECT_VERSION: 1
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        INFOPLIST_FILE: Info.plist
+        GENERATE_INFOPLIST_FILE: YES
