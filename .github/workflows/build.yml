@@ -1,78 +1,40 @@
 name: Build IPA
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-
   build:
-  
     runs-on: macos-latest
-    
+
     steps:
-    
-      - uses: actions/checkout@v3
-      
-      - name: Install XcodeGen
-      
-        run: brew install xcodegen
+    - uses: actions/checkout@v4
+
+    - name: Install XcodeGen
+      run: brew install xcodegen
+
+    - name: Generate Xcode Project
+      run: xcodegen generate
+
+    - name: Build IPA
+      run: |
+        xcodebuild archive \
+          -project SavingsSentence.xcodeproj \
+          -scheme SavingsSentence \
+          -archivePath SavingsSentence.xcarchive \
+          -sdk iphoneos \
+          CODE_SIGNING_ALLOWED=NO \
+          CODE_SIGNING_REQUIRED=NO \
+          AD_HOC_CODE_SIGNING_ALLOWED=YES
+
+        mkdir -p Payload
+        cp -r SavingsSentence.xcarchive/Products/Applications/*.app Payload/
+        zip -r SavingsSentence.ipa Payload
         
-      - name: Generate Xcode Project
-      
-        run: xcodegen generate
-        
-      - name: Build IPA
-      
-        run: |
-        
-          xcodebuild archive \
-          
-            -project SavingsSentence.xcodeproj \
-            
-            -scheme SavingsSentence \
-            
-            -archivePath SavingsSentence.xcarchive \
-            
-            -sdk iphoneos \
-            
-            CODE_SIGNING_ALLOWED=NO
-            
-          mkdir -p Payload
-          
-          cp -r SavingsSentence.xcarchive/Products/Applications/*.app Payload/
-          
-          zip -r SavingsSentence.ipa Payload
-          
-      - name: Upload IPA
-      
-        uses: actions/upload-artifact@v3
-        
-        with:
-        
-          name: SavingsSentence-IPA
-          
-          path: SavingsSentence.ipa
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    - name: Upload IPA
+      uses: actions/upload-artifact@v4
+      with:
+        name: SavingsSentence-IPA
+        path: SavingsSentence.ipa
