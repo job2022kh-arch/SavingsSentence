@@ -7,7 +7,10 @@ targets:
     platform: iOS
     deploymentTarget: "15.0"
     sources:
-      - path: SavingsSentence
+      - path: .
+        excludes:
+          - ".github"
+          - "project.yml"
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: com.savingssentence.app
       MARKETING_VERSION: 1.0.0
