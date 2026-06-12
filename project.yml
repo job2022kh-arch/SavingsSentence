@@ -10,6 +10,7 @@ targets:
       - path: .
         includes:
           - "*.swift"
+          - "Info.plist"
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: com.savingssentence.app
       MARKETING_VERSION: 1.0.0
